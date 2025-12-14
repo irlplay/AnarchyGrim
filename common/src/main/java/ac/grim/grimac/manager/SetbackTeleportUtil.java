@@ -143,6 +143,8 @@ public class SetbackTeleportUtil extends Check implements PostPredictionCheck {
         } else if (player.isGliding) {
             PredictionEngineElytra.getElytraMovement(player, vector, ReachUtils.getLook(player, player.yaw, player.pitch)).multiply(player.stuckSpeedMultiplier).multiply(0.99F, 0.98F, 0.99F);
             vector.setY(vector.getY() - 0.05); // Make the player fall a bit
+            vector.setX(originalX);
+            vector.setZ(originalZ);
         } else { // Gliding doesn't have friction, we handle it differently
             PredictionEngineNormal.staticVectorEndOfTick(player, vector); // Lava and normal movement
         }
