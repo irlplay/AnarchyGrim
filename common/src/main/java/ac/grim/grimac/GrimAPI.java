@@ -2,8 +2,8 @@ package ac.grim.grimac;
 
 import ac.grim.grimac.api.event.EventBus;
 import ac.grim.grimac.api.plugin.GrimPlugin;
-import ac.grim.grimac.events.GrimExtensionManager;
-import ac.grim.grimac.events.OptimizedEventBus;
+import ac.grim.grimac.internal.plugin.resolver.GrimExtensionManager;
+import ac.grim.grimac.internal.event.OptimizedEventBus;
 import ac.grim.grimac.manager.AlertManagerImpl;
 import ac.grim.grimac.manager.DiscordManager;
 import ac.grim.grimac.manager.InitManager;
@@ -15,6 +15,7 @@ import ac.grim.grimac.manager.violationdatabase.ViolationDatabaseManager;
 import ac.grim.grimac.platform.api.Platform;
 import ac.grim.grimac.platform.api.PlatformLoader;
 import ac.grim.grimac.platform.api.PlatformServer;
+import ac.grim.grimac.platform.api.command.CommandService;
 import ac.grim.grimac.platform.api.manager.ItemResetHandler;
 import ac.grim.grimac.platform.api.manager.MessagePlaceHolderManager;
 import ac.grim.grimac.platform.api.manager.CommandAdapter;
@@ -22,18 +23,16 @@ import ac.grim.grimac.platform.api.manager.PermissionRegistrationManager;
 import ac.grim.grimac.platform.api.manager.PlatformPluginManager;
 import ac.grim.grimac.platform.api.player.PlatformPlayerFactory;
 import ac.grim.grimac.platform.api.scheduler.PlatformScheduler;
-import ac.grim.grimac.platform.api.sender.Sender;
 import ac.grim.grimac.platform.api.sender.SenderFactory;
 import ac.grim.grimac.utils.anticheat.PlayerDataManager;
 import ac.grim.grimac.utils.common.arguments.CommonGrimArguments;
 import ac.grim.grimac.utils.reflection.ReflectionUtils;
 import lombok.Getter;
-import org.incendo.cloud.CommandManager;
 import org.jetbrains.annotations.NotNull;
 
 
 @Getter
-public final class GrimAPI {
+public final class GrimAPI { // test
     public static final GrimAPI INSTANCE = new GrimAPI();
 
     @Getter
@@ -78,7 +77,7 @@ public final class GrimAPI {
     public void load(PlatformLoader platformLoader, Initable... platformSpecificInitables) {
         this.loader = platformLoader;
         this.violationDatabaseManager = new ViolationDatabaseManager(getGrimPlugin());
-        this.initManager = new InitManager(loader.getPacketEvents(), loader::getCommandManager, platformSpecificInitables);
+        this.initManager = new InitManager(loader.getPacketEvents(), platformSpecificInitables);
         this.initManager.load();
         this.initialized = true;
     }
@@ -129,8 +128,8 @@ public final class GrimAPI {
         return loader.getMessagePlaceHolderManager();
     }
 
-    public CommandManager<Sender> getCommandManager() {
-        return loader.getCommandManager();
+    public CommandService getCommandService() {
+        return loader.getCommandService();
     }
 
     private void checkInitialized() {
