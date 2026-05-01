@@ -4,7 +4,7 @@ import ac.grim.grimac.checks.Check;
 import ac.grim.grimac.player.GrimPlayer;
 
 public abstract class AbstractDebugHandler extends Check {
-    public AbstractDebugHandler(GrimPlayer player) {
+    public AbstractDebugHandler(GrimPlayer player) { // test
         super(player);
     }
 
